@@ -1,17 +1,9 @@
-/**
- * Configuração global do Axios.
- *
- * Conceito Vue/Pinia: não importamos a store diretamente aqui para evitar
- * dependência circular. Em vez disso, lemos o token direto do localStorage
- * e usamos a store apenas para o logout.
- */
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'http://localhost:3000',
 })
 
-// REQUEST INTERCEPTOR — adiciona o token em toda requisição autenticada
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('accessToken')
   if (token) {
@@ -20,7 +12,6 @@ api.interceptors.request.use((config) => {
   return config
 })
 
-// Controle para evitar múltiplos refreshes simultâneos
 let isRefreshing = false
 let failedQueue: Array<{ resolve: (token: string) => void; reject: (err: unknown) => void }> = []
 
@@ -32,7 +23,6 @@ function processQueue(error: unknown, token: string | null = null) {
   failedQueue = []
 }
 
-// RESPONSE INTERCEPTOR — se receber 401, tenta renovar o token automaticamente
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -40,7 +30,6 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
-        // Enfileira a requisição enquanto o refresh está acontecendo
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject })
         })
@@ -65,7 +54,7 @@ api.interceptors.response.use(
       }
 
       try {
-        const { data } = await axios.post('/api/auth/refresh', { refreshToken })
+        const { data } = await axios.post('http://localhost:3000/auth/refresh', { refreshToken })
         localStorage.setItem('accessToken', data.accessToken)
         localStorage.setItem('refreshToken', data.refreshToken)
         api.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`
