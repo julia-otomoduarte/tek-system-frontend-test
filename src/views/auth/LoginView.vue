@@ -45,9 +45,14 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.store'
+import { useToastStore } from '@/stores/toast.store'
+import axios from 'axios'
+
+
 
 const router = useRouter()
 const authStore = useAuthStore()
+const toastStore = useToastStore()
 
 const formRef = ref()
 const isLoading = ref(false)
@@ -69,9 +74,14 @@ async function handleSubmit() {
   isLoading.value = true
   try {
     await authStore.loginUser(form)
+    toastStore.triggerToast('Login realizado com sucesso!', 'success')
     router.push({ name: 'dashboard' })
   } catch (error) {
-    console.error('Erro no login:', error)
+    const message = axios.isAxiosError(error)
+    ? error.response?.data?.message ?? 'Erro ao realizar login.'
+    : 'Erro inesperado.'
+    console.error('Erro ao realizar login:', error)
+    toastStore.triggerToast(message, 'error')
   } finally {
     isLoading.value = false
   }
