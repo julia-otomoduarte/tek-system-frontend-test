@@ -5,7 +5,7 @@
         <VCard class="pa-4">
           <VCardTitle class="text-center mb-4">Login</VCardTitle>
 
-          <VForm ref="formRef" @submit.prevent="handleSubmit">
+          <VForm ref="formRef">
             <VTextField
               v-model="form.email"
               label="E-mail"
@@ -23,10 +23,11 @@
             />
 
             <VBtn
-              type="submit"
+              type="button"
               color="primary"
               block
               :loading="isLoading"
+              @click="handleSubmit"
             >
               Entrar
             </VBtn>
@@ -44,17 +45,16 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import type { VForm } from 'vuetify/components'
+import axios from 'axios'
 import { useAuthStore } from '@/stores/auth.store'
 import { useToastStore } from '@/stores/toast.store'
-import axios from 'axios'
-
-
 
 const router = useRouter()
 const authStore = useAuthStore()
 const toastStore = useToastStore()
 
-const formRef = ref()
+const formRef = ref<InstanceType<typeof VForm> | null>(null)
 const isLoading = ref(false)
 
 const form = reactive({
@@ -68,8 +68,8 @@ const rules = {
 }
 
 async function handleSubmit() {
-  const { valid } = await formRef.value.validate()
-  if (!valid) return
+  const result = await formRef.value?.validate()
+  if (!result?.valid) return
 
   isLoading.value = true
   try {
@@ -78,9 +78,8 @@ async function handleSubmit() {
     router.push({ name: 'dashboard' })
   } catch (error) {
     const message = axios.isAxiosError(error)
-    ? error.response?.data?.message ?? 'Erro ao realizar login.'
-    : 'Erro inesperado.'
-    console.error('Erro ao realizar login:', error)
+      ? error.response?.data?.message ?? 'Erro ao realizar login.'
+      : 'Erro inesperado.'
     toastStore.triggerToast(message, 'error')
   } finally {
     isLoading.value = false

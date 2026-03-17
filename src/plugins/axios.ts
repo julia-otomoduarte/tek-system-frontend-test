@@ -28,7 +28,8 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    const accessToken = localStorage.getItem('accessToken')
+    if (error.response?.status === 401 && !originalRequest._retry && accessToken) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject })
