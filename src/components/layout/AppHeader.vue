@@ -1,5 +1,11 @@
 <template>
   <VAppBar elevation="0" border="b">
+    <template #prepend>
+      <VBtn icon @click="emit('toggle-drawer')">
+        <VIcon>mdi-menu</VIcon>
+      </VBtn>
+    </template>
+
     <VAppBarTitle>{{ pageTitle }}</VAppBarTitle>
 
     <template #append>
@@ -16,6 +22,9 @@
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.store'
+
+const emit = defineEmits<{ (e: 'toggle-drawer'): void }>()
+
 
 const router = useRouter()
 const route = useRoute()

@@ -1,7 +1,7 @@
 <template>
   <VApp>
-    <AppSidebar />
-    <AppHeader />
+    <AppSidebar v-model:drawer="isDrawerOpen" />
+    <AppHeader @toggle-drawer="isDrawerOpen = !isDrawerOpen" />
     <VMain>
       <VContainer fluid class="pa-6">
         <RouterView />
@@ -11,6 +11,11 @@
 </template>
 
 <script setup lang="ts">
-import AppSidebar from '@/components/layout/AppSideBar.vue'
+import { ref } from 'vue'
+import { useDisplay } from 'vuetify'
+import AppSidebar from '@/components/layout/AppSidebar.vue'
 import AppHeader from '@/components/layout/AppHeader.vue'
+
+const { mobile } = useDisplay()
+const isDrawerOpen = ref(!mobile.value)
 </script>

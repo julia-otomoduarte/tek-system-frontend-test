@@ -1,5 +1,11 @@
 <template>
-  <VNavigationDrawer permanent width="240">
+  <VNavigationDrawer
+    :model-value="drawer"
+    :temporary="isMobile"
+    :permanent="!isMobile"
+    width="240"
+    @update:model-value="emit('update:drawer', $event)"
+  >
     <div class="pa-4 mb-2">
       <span class="text-h6 font-weight-bold">ERP System</span>
     </div>
@@ -21,6 +27,13 @@
 </template>
 
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
+
+const { mobile: isMobile } = useDisplay()
+
+defineProps<{ drawer: boolean }>()
+const emit = defineEmits<{ (e: 'update:drawer', value: boolean): void }>()
+
 const navItems = [
   { name: 'dashboard', to: { name: 'dashboard' }, icon: 'mdi-view-dashboard', label: 'Dashboard' },
   { name: 'customers', to: { name: 'customers-list' }, icon: 'mdi-account-group', label: 'Clientes' },
