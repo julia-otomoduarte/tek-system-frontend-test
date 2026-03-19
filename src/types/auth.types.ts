@@ -13,7 +13,7 @@ export interface AuthResponse {
     accessToken: string
     refreshToken: string
     user: {
-        id: number
+        id: string
         name: string
         email: string
     }

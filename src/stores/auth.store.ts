@@ -5,7 +5,7 @@ import type { LoginPayload, RegisterPayload } from '@/types/auth.types'
 
 export const useAuthStore = defineStore('auth', () => {
     const token = ref<string | null>(localStorage.getItem('accessToken'))
-    const user = ref<{ id: number; name: string; email: string } | null>(null)
+    const user = ref<{ id: string; name: string; email: string } | null>(null)
 
     const isAuthenticated = computed(() => !!token.value)
 

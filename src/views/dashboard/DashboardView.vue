@@ -81,13 +81,16 @@ const stats = ref<DashboardResponse | null>(null)
 
 const tableHeaders = [
   { title: 'Produto', key: 'productName', align: 'start' as const },
+  { title: 'SKU', key: 'sku', align: 'start' as const },
   { title: 'Qtd. Vendida', key: 'totalQuantityFormatted', align: 'end' as const },
+  { title: 'Receita Total', key: 'totalValueFormatted', align: 'end' as const },
 ]
 
 const topProducts = computed(() =>
-  (stats.value?.topProducts ?? []).map((p) => ({
+  (stats.value?.topSellingProducts ?? []).map((p) => ({
     ...p,
     totalQuantityFormatted: `${p.totalQuantity} un.`,
+    totalValueFormatted: formatCurrency(p.totalValue),
   }))
 )
 
@@ -95,13 +98,13 @@ const defaultStatuses = [
   { label: 'Rascunho', key: 'DRAFT', color: 'grey', icon: 'mdi-pencil-outline' },
   { label: 'Pendente', key: 'PENDING', color: 'orange', icon: 'mdi-clock-outline' },
   { label: 'Concluído', key: 'COMPLETED', color: 'green', icon: 'mdi-check-circle-outline' },
-  { label: 'Cancelado', key: 'CANCELED', color: 'red', icon: 'mdi-close-circle-outline' },
+  { label: 'Cancelado', key: 'CANCELLED', color: 'red', icon: 'mdi-close-circle-outline' },
 ]
 
 const orderStatuses = computed(() =>
   defaultStatuses.map((item) => ({
     ...item,
-    count: stats.value?.ordersByStatus.find((o) => o.status === item.key)?.count ?? 0,
+    count: stats.value?.ordersQuantityByStatus[item.key as keyof typeof stats.value.ordersQuantityByStatus] ?? 0,
   }))
 )
 

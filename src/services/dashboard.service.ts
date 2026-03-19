@@ -3,8 +3,8 @@ import type { DashboardResponse } from '@/types/dashboard.types'
 
 const emptyStats: DashboardResponse = {
   totalRevenue: 0,
-  ordersByStatus: [],
-  topProducts: [],
+  ordersQuantityByStatus: { DRAFT: 0, PENDING: 0, COMPLETED: 0, CANCELLED: 0 },
+  topSellingProducts: [],
 }
 
 export const dashboardService = {
