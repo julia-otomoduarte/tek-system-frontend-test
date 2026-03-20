@@ -5,7 +5,10 @@ import type { LoginPayload, RegisterPayload } from '@/types/auth.types'
 
 export const useAuthStore = defineStore('auth', () => {
     const token = ref<string | null>(localStorage.getItem('accessToken'))
-    const user = ref<{ id: string; name: string; email: string } | null>(null)
+    const storedUser = localStorage.getItem('user')
+    const user = ref<{ id: string; name: string; email: string } | null>(
+      storedUser ? JSON.parse(storedUser) : null
+    )
 
     const isAuthenticated = computed(() => !!token.value)
 
@@ -16,6 +19,7 @@ export const useAuthStore = defineStore('auth', () => {
             user.value = data.user
             localStorage.setItem('accessToken', data.accessToken)
             localStorage.setItem('refreshToken', data.refreshToken)
+            localStorage.setItem('user', JSON.stringify(data.user))
 
         } catch (error) {
             console.error('Login failed:', error)
@@ -30,6 +34,7 @@ export const useAuthStore = defineStore('auth', () => {
             user.value = data.user
             localStorage.setItem('accessToken', data.accessToken)
             localStorage.setItem('refreshToken', data.refreshToken)
+            localStorage.setItem('user', JSON.stringify(data.user))
 
         } catch (error) {
             console.error('Registration failed:', error)
@@ -42,6 +47,7 @@ export const useAuthStore = defineStore('auth', () => {
         user.value = null
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
+        localStorage.removeItem('user')
     }
 
     return {

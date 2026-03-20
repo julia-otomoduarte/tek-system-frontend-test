@@ -17,6 +17,7 @@
         v-for="item in navItems"
         :key="item.name"
         :to="item.to"
+        :exact="item.exact"
         :prepend-icon="item.icon"
         :title="item.label"
         rounded="lg"
@@ -35,9 +36,10 @@ defineProps<{ drawer: boolean }>()
 const emit = defineEmits<{ (e: 'update:drawer', value: boolean): void }>()
 
 const navItems = [
-  { name: 'dashboard', to: { name: 'dashboard' }, icon: 'mdi-view-dashboard', label: 'Dashboard' },
-  { name: 'customers', to: { name: 'customers-list' }, icon: 'mdi-account-group', label: 'Clientes' },
-  { name: 'products', to: { name: 'products-list' }, icon: 'mdi-package-variant', label: 'Produtos' },
-  { name: 'orders', to: { name: 'orders-list' }, icon: 'mdi-cart', label: 'Pedidos' },
+  { name: 'dashboard', to: { name: 'dashboard' }, icon: 'mdi-view-dashboard', label: 'Dashboard', exact: true },
+  { name: 'customers', to: { name: 'customers-list' }, icon: 'mdi-account-group', label: 'Clientes', exact: false },
+  { name: 'products', to: { name: 'products-list' }, icon: 'mdi-package-variant', label: 'Produtos', exact: false },
+  { name: 'orders', to: { name: 'orders-list' }, icon: 'mdi-cart', label: 'Pedidos', exact: false },
+  { name: 'profile', to: { name: 'profile' }, icon: 'mdi-account-circle', label: 'Perfil', exact: false },
 ]
 </script>
