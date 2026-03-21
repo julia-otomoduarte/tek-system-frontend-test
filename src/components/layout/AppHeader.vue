@@ -34,8 +34,9 @@ const userInitials = computed(() => {
   const name = authStore.user?.name ?? ''
   return name
     .split(' ')
+    .filter((w) => w.length > 0)
     .slice(0, 2)
-    .map((word) => word[0])
+    .map((w) => w[0] ?? '')
     .join('')
     .toUpperCase()
 })

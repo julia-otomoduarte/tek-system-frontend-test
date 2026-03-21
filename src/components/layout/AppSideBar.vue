@@ -23,6 +23,13 @@
         rounded="lg"
         active-color="primary"
       />
+      <VListItem
+        :to="{ name: 'profile' }"
+        prepend-icon="mdi-account-circle"
+        title="Perfil"
+        rounded="lg"
+        active-color="primary"
+      />
     </VList>
   </VNavigationDrawer>
 </template>
@@ -40,6 +47,5 @@ const navItems = [
   { name: 'customers', to: { name: 'customers-list' }, icon: 'mdi-account-group', label: 'Clientes', exact: false },
   { name: 'products', to: { name: 'products-list' }, icon: 'mdi-package-variant', label: 'Produtos', exact: false },
   { name: 'orders', to: { name: 'orders-list' }, icon: 'mdi-cart', label: 'Pedidos', exact: false },
-  { name: 'profile', to: { name: 'profile' }, icon: 'mdi-account-circle', label: 'Perfil', exact: false },
 ]
 </script>
