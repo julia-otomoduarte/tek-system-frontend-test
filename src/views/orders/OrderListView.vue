@@ -90,6 +90,15 @@
             icon
             size="small"
             variant="text"
+            :to="{ name: 'order-edit', params: { id: item.id } }"
+          >
+            <VIcon icon="mdi-pencil" size="18" />
+          </VBtn>
+          <VBtn
+            v-if="item.status === 'DRAFT' || item.status === 'PENDING'"
+            icon
+            size="small"
+            variant="text"
             color="error"
             @click="confirmDelete(item)"
           >
@@ -236,7 +245,6 @@ async function fetchOrders(page = 1) {
   loading.value = true
   try {
     const { data } = await ordersService.listOrders({ ...filters.value, page })
-    console.log(data)
     orders.value = data.data
     total.value = data.meta.total
     currentPage.value = page

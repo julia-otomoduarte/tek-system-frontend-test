@@ -12,6 +12,12 @@ export interface OrderCustomer {
   id: string
   name: string
   email: string
+  phone?: string
+  document?: string
+  address?: {
+    city: string
+    state: string
+  }
 }
 
 export interface Order {
