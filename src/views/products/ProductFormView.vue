@@ -2,9 +2,6 @@
   <div>
     <div class="flex items-center justify-between mb-6">
       <div>
-        <h1 class="text-h5 font-bold">
-          {{ isEdit ? 'Editar Produto' : 'Novo Produto' }}
-        </h1>
         <div class="text-body-2 text-medium-emphasis mt-1">
           <RouterLink :to="{ name: 'products-list' }" class="text-decoration-none">
             Produtos
@@ -25,6 +22,9 @@
                 label="SKU"
                 :rules="[rules.required]"
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
                 hint="Código único do produto"
               />
             </VCol>
@@ -34,6 +34,9 @@
                 label="Nome do produto"
                 :rules="[rules.required]"
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
               />
             </VCol>
             <VCol cols="12">
@@ -41,6 +44,9 @@
                 v-model="form.description"
                 label="Descrição (opcional)"
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
               />
             </VCol>
             <VCol cols="12" md="6">
@@ -49,6 +55,9 @@
                 label="Preço"
                 prefix="R$"
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
                 :rules="[rules.required, rules.positiveNumber]"
                 @input="handlePriceInput"
               />
@@ -60,6 +69,9 @@
                 type="number"
                 :rules="[rules.required, rules.nonNegative]"
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
               />
             </VCol>
           </VRow>
