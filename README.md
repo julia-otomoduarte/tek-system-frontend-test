@@ -177,6 +177,7 @@ Página do usuário autenticado com avatar de iniciais, formulário de atualiza�
 - **Alterar senha**: campo opcional — deixe em branco para manter a senha atual.
 - Após salvar, os dados são atualizados no estado global da aplicação.
 - Botão de logout disponível na página de perfil e na barra superior.
+- Botão de excluir perfil.
 
 ---
 
