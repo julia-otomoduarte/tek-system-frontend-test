@@ -69,7 +69,8 @@
             </VCardText>
           </VCard>
 
-          <div class="d-flex justify-end">
+          <div class="d-flex justify-space-between">
+            <VBtn color="error" variant="outlined" prepend-icon="mdi-logout" @click="logout">Sair</VBtn>
             <VBtn type="submit" color="primary" :loading="saving">Salvar alterações</VBtn>
           </div>
         </VForm>
@@ -155,6 +156,11 @@ onMounted(async () => {
     }
   }
 })
+
+function logout() {
+  authStore.logoutUser()
+  router.push({ name: 'login' })
+}
 
 async function onSubmit() {
   const { valid } = await formRef.value.validate()

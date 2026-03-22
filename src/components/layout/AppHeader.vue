@@ -14,6 +14,10 @@
           <span class="text-body-2 font-weight-bold">{{ userInitials }}</span>
         </VAvatar>
       </VBtn>
+      <VBtn icon @click="logout">
+        <VIcon>mdi-logout</VIcon>
+        <VTooltip activator="parent" location="bottom">Sair</VTooltip>
+      </VBtn>
     </template>
   </VAppBar>
 </template>
@@ -29,6 +33,11 @@ const emit = defineEmits<{ (e: 'toggle-drawer'): void }>()
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
+
+function logout() {
+  authStore.logoutUser()
+  router.push({ name: 'login' })
+}
 
 const userInitials = computed(() => {
   const name = authStore.user?.name ?? ''
