@@ -1,9 +1,23 @@
 <template>
-  <VContainer class="fill-height" fluid>
-    <VRow align="center" justify="center">
+  <VContainer
+    class="bg-[url(/tek-system-background.jpg)] bg-cover bg-center pa-0"
+    fluid
+    style="min-height: 100vh"
+  >
+    <VRow
+      align="center"
+      justify="center"
+      style="min-height: 100vh; background-color: rgba(17, 21, 54, 0.7)"
+      class="ma-0"
+    >
       <VCol cols="12" sm="8" md="4">
-        <VCard class="pa-4">
-          <VCardTitle class="text-center mb-4">Login</VCardTitle>
+        <VCard class="pa-8 flex flex-col justify-center items-center rounded-xl" elevation="10">
+          <div class="text-center mb-4 w-full flex justify-center">
+            <img src="/tek-system.png" alt="Tek System" style="max-height: 80px" />
+          </div>
+          <VCardTitle style="font-weight: 500; font-size: 1.5rem; margin-bottom: 1rem"
+            >Login</VCardTitle
+          >
 
           <VForm ref="formRef">
             <VTextField
@@ -12,6 +26,9 @@
               type="email"
               :rules="[rules.required, rules.email]"
               class="mb-3"
+              bg-color="grey-lighten-5"
+              color="primary"
+              base-color="primary"
             />
 
             <VTextField
@@ -20,6 +37,9 @@
               type="password"
               :rules="[rules.required]"
               class="mb-4"
+              bg-color="grey-lighten-5"
+              color="primary"
+              base-color="primary"
             />
 
             <VBtn
@@ -28,13 +48,14 @@
               block
               :loading="isLoading"
               @click="handleSubmit"
+              style="font-size: 1rem; font-weight: 600"
             >
               Entrar
             </VBtn>
           </VForm>
 
           <div class="text-center mt-4">
-            <RouterLink to="/register">Não tem conta? Registre-se</RouterLink>
+            Não tem conta? <RouterLink to="/register" class="register-link">Registre-se</RouterLink>
           </div>
         </VCard>
       </VCol>
@@ -78,7 +99,7 @@ async function handleSubmit() {
     router.push({ name: 'dashboard' })
   } catch (error) {
     const message = axios.isAxiosError(error)
-      ? error.response?.data?.message ?? 'Erro ao realizar login.'
+      ? (error.response?.data?.message ?? 'Erro ao realizar login.')
       : 'Erro inesperado.'
     toastStore.triggerToast(message, 'error')
   } finally {
@@ -86,3 +107,12 @@ async function handleSubmit() {
   }
 }
 </script>
+
+<style scoped>
+.register-link {
+  text-decoration: none;
+}
+.register-link:hover {
+  text-decoration: underline;
+}
+</style>
