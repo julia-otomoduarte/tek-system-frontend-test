@@ -2,45 +2,40 @@
   <div>
     <VRow class="mb-4">
       <VCol cols="12" sm="6" lg="3">
-        <VCard color="blue-lighten-4" rounded="lg" elevation="0" height="100%">
-          <VCardText class="pa-5">
-            <div class="d-flex align-center mb-3">
-              <VIcon icon="mdi-cash-multiple" color="blue-darken-2" size="20" class="mr-2" />
-              <span class="text-body-2 text-medium-emphasis">Faturamento Total</span>
-            </div>
+        <VCard color="blue-lighten-4" rounded="lg" elevation="0" height="200px">
+          <VCardText class="pa-6 text-center">
+            <VIcon icon="mdi-cash-multiple" color="blue-darken-2" size="40" class="mb-3" />
             <div v-if="isLoading">
-              <VProgressCircular indeterminate size="20" color="blue-darken-2" />
+              <VProgressCircular indeterminate size="24" color="blue-darken-2" />
             </div>
-            <div v-else class="text-h6 font-weight-bold text-blue-darken-2">
+            <div v-else class="text-[2rem] font-weight-bold text-blue-darken-2 mb-1">
               {{ formatCurrency(stats?.totalRevenue ?? 0) }}
             </div>
+            <div class="text-body-2 text-medium-emphasis">Faturamento Total</div>
           </VCardText>
         </VCard>
       </VCol>
 
       <VCol v-for="item in orderStatuses" :key="item.key" cols="12" sm="6" md="3">
-        <VCard :color="`${item.color}-lighten-4`" rounded="lg" elevation="0" height="100%">
-          <VCardText class="pa-5">
-            <div class="d-flex align-center mb-3">
-              <VIcon :icon="item.icon" :color="`${item.color}-darken-2`" size="20" class="mr-2" />
-              <span class="text-body-2 text-medium-emphasis">{{ item.label }}</span>
-            </div>
+        <VCard :color="`${item.color}-lighten-4`" rounded="lg" elevation="0" height="200px">
+          <VCardText class="pa-6 text-center">
+            <VIcon :icon="item.icon" :color="`${item.color}-darken-2`" size="40" class="mb-3" />
             <div v-if="isLoading">
-              <VProgressCircular indeterminate size="20" :color="`${item.color}-darken-2`" />
+              <VProgressCircular indeterminate size="24" :color="`${item.color}-darken-2`" />
             </div>
-            <div v-else :class="`text-h6 font-weight-bold text-${item.color}-darken-2`">
+            <div v-else :class="`text-[2rem] font-weight-bold text-${item.color}-darken-2 mb-1`">
               {{ item.count }}
             </div>
-            <div class="text-caption text-medium-emphasis mt-1">Pedidos</div>
+            <div class="text-body-2 text-medium-emphasis">{{ item.label }}</div>
           </VCardText>
         </VCard>
       </VCol>
     </VRow>
 
     <VRow>
-      <VCol cols="12">
+      <VCol cols="12" md="6" lg="5">
         <VCard rounded="lg" elevation="0" border>
-          <VCardTitle class="pa-6 pb-2 text-body-1 font-weight-bold">
+          <VCardTitle class="pa-4 pb-2 text-body-1 font-weight-bold">
             Top 5 Produtos Mais Vendidos
           </VCardTitle>
           <VDataTable
@@ -48,9 +43,10 @@
             :items="topProducts"
             :loading="isLoading"
             hide-default-footer
+            density="compact"
           >
             <template #no-data>
-              <div class="text-center pa-6 text-medium-emphasis">Nenhum produto vendido ainda.</div>
+              <div class="text-center pa-4 text-medium-emphasis">Nenhum produto vendido ainda.</div>
             </template>
           </VDataTable>
         </VCard>
