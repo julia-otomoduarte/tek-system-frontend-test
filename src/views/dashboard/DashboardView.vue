@@ -1,6 +1,5 @@
 <template>
   <div>
- 
     <VRow class="mb-4">
       <VCol cols="12" sm="6" lg="3">
         <VCard color="blue-lighten-4" rounded="lg" elevation="0" height="100%">
@@ -19,13 +18,7 @@
         </VCard>
       </VCol>
 
-      <VCol
-        v-for="item in orderStatuses"
-        :key="item.key"
-        cols="12"
-        sm="6"
-        md="3"
-      >
+      <VCol v-for="item in orderStatuses" :key="item.key" cols="12" sm="6" md="3">
         <VCard :color="`${item.color}-lighten-4`" rounded="lg" elevation="0" height="100%">
           <VCardText class="pa-5">
             <div class="d-flex align-center mb-3">
@@ -44,7 +37,6 @@
       </VCol>
     </VRow>
 
-
     <VRow>
       <VCol cols="12">
         <VCard rounded="lg" elevation="0" border>
@@ -58,9 +50,7 @@
             hide-default-footer
           >
             <template #no-data>
-              <div class="text-center pa-6 text-medium-emphasis">
-                Nenhum produto vendido ainda.
-              </div>
+              <div class="text-center pa-6 text-medium-emphasis">Nenhum produto vendido ainda.</div>
             </template>
           </VDataTable>
         </VCard>
@@ -70,8 +60,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed} from 'vue'
-import { dashboardService} from '@/services/dashboard.service'
+import { ref, onMounted, computed } from 'vue'
+import { dashboardService } from '@/services/dashboard.service'
 import { useToastStore } from '@/stores/toast.store'
 import type { DashboardResponse } from '@/types/dashboard.types'
 
@@ -91,7 +81,7 @@ const topProducts = computed(() =>
     ...p,
     totalQuantityFormatted: `${p.totalQuantity} un.`,
     totalValueFormatted: formatCurrency(p.totalValue),
-  }))
+  })),
 )
 
 const defaultStatuses = [
@@ -104,8 +94,11 @@ const defaultStatuses = [
 const orderStatuses = computed(() =>
   defaultStatuses.map((item) => ({
     ...item,
-    count: stats.value?.ordersQuantityByStatus[item.key as keyof typeof stats.value.ordersQuantityByStatus] ?? 0,
-  }))
+    count:
+      stats.value?.ordersQuantityByStatus[
+        item.key as keyof typeof stats.value.ordersQuantityByStatus
+      ] ?? 0,
+  })),
 )
 
 const formatCurrency = (value: number): string =>

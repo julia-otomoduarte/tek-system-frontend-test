@@ -21,7 +21,7 @@
         :prepend-icon="item.icon"
         :title="item.label"
         rounded="lg"
-        active-color="primary"
+        active-color="secondary"
         style="font-size: 1rem"
       />
       <VListItem
@@ -29,7 +29,7 @@
         prepend-icon="mdi-account-circle"
         title="Perfil"
         rounded="lg"
-        active-color="primary"
+        active-color="secondary"
       />
     </VList>
   </VNavigationDrawer>
@@ -68,3 +68,14 @@ const navItems = [
   { name: 'orders', to: { name: 'orders-list' }, icon: 'mdi-cart', label: 'Pedidos', exact: false },
 ]
 </script>
+
+<style scoped>
+:deep(.v-list-item:hover > .v-list-item__overlay) {
+  background-color: #761c1e;
+  opacity: 0.1;
+}
+:deep(.v-list-item:hover .v-list-item-title),
+:deep(.v-list-item:hover .v-icon) {
+  color: #761c1e;
+}
+</style>
