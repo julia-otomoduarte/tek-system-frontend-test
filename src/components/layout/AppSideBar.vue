@@ -7,7 +7,7 @@
     @update:model-value="emit('update:drawer', $event)"
   >
     <div class="pa-4 mb-2">
-      <span class="text-h6 font-weight-bold">ERP System</span>
+      <span class="text-h6 font-weight-bold">Tek-System</span>
     </div>
 
     <VDivider />
@@ -22,6 +22,7 @@
         :title="item.label"
         rounded="lg"
         active-color="primary"
+        style="font-size: 1rem"
       />
       <VListItem
         :to="{ name: 'profile' }"
@@ -43,9 +44,27 @@ defineProps<{ drawer: boolean }>()
 const emit = defineEmits<{ (e: 'update:drawer', value: boolean): void }>()
 
 const navItems = [
-  { name: 'dashboard', to: { name: 'dashboard' }, icon: 'mdi-view-dashboard', label: 'Dashboard', exact: true },
-  { name: 'customers', to: { name: 'customers-list' }, icon: 'mdi-account-group', label: 'Clientes', exact: false },
-  { name: 'products', to: { name: 'products-list' }, icon: 'mdi-package-variant', label: 'Produtos', exact: false },
+  {
+    name: 'dashboard',
+    to: { name: 'dashboard' },
+    icon: 'mdi-view-dashboard',
+    label: 'Dashboard',
+    exact: true,
+  },
+  {
+    name: 'customers',
+    to: { name: 'customers-list' },
+    icon: 'mdi-account-group',
+    label: 'Clientes',
+    exact: false,
+  },
+  {
+    name: 'products',
+    to: { name: 'products-list' },
+    icon: 'mdi-package-variant',
+    label: 'Produtos',
+    exact: false,
+  },
   { name: 'orders', to: { name: 'orders-list' }, icon: 'mdi-cart', label: 'Pedidos', exact: false },
 ]
 </script>
