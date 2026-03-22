@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div class="d-flex align-center justify-space-between mb-6">
-      <h1 class="text-h5 font-weight-bold">Clientes</h1>
+    <div class="d-flex align-center justify-end mb-6">
       <VBtn color="primary" prepend-icon="mdi-plus" :to="{ name: 'customer-create' }">
         Novo Cliente
       </VBtn>
@@ -17,6 +16,9 @@
             clearable
             hide-details
             density="compact"
+            bg-color="grey-lighten-5"
+            color="primary"
+            base-color="primary"
             @update:model-value="onFilterChange"
           />
         </VCol>
@@ -28,6 +30,9 @@
             clearable
             hide-details
             density="compact"
+            bg-color="grey-lighten-5"
+            color="primary"
+            base-color="primary"
             @update:model-value="onFilterChange"
           />
         </VCol>
@@ -87,6 +92,9 @@
             clearable
             hide-details
             density="compact"
+            bg-color="grey-lighten-5"
+            color="primary"
+            base-color="primary"
           />
           <VTextField
             v-model="filters.document"
@@ -95,6 +103,9 @@
             clearable
             hide-details
             density="compact"
+            bg-color="grey-lighten-5"
+            color="primary"
+            base-color="primary"
           />
           <VSelect
             v-model="selectedState"
@@ -107,6 +118,9 @@
             hide-details
             density="compact"
             :loading="loadingStates"
+            bg-color="grey-lighten-5"
+            color="primary"
+            base-color="primary"
           />
           <VSelect
             v-model="filters.city"
@@ -120,6 +134,9 @@
             density="compact"
             :disabled="!selectedState"
             :loading="loadingCities"
+            bg-color="grey-lighten-5"
+            color="primary"
+            base-color="primary"
           />
         </div>
 
@@ -131,15 +148,22 @@
     </VNavigationDrawer>
 
     <VDialog v-model="deleteDialog" max-width="400">
-      <VCard>
-        <VCardTitle>Excluir cliente</VCardTitle>
+      <VCard class="rounded-xl py-4">
+        <VCardTitle class="text-h6 font-weight-bold d-flex align-center gap-2">
+          Excluir cliente
+          <VIcon icon="mdi-alert-circle-outline" color="warning" size="22" />
+        </VCardTitle>
         <VCardText>
           Tem certeza que deseja excluir <strong>{{ selectedCustomer?.name }}</strong
           >?
+          <br />
+          Esta ação não pode ser desfeita.
         </VCardText>
         <VCardActions class="justify-end">
-          <VBtn variant="text" @click="deleteDialog = false">Cancelar</VBtn>
-          <VBtn color="error" :loading="deleting" @click="deleteCustomer">Excluir</VBtn>
+          <VBtn variant="outlined" @click="deleteDialog = false">Cancelar</VBtn>
+          <VBtn variant="flat" color="error" :loading="deleting" @click="deleteCustomer"
+            >Excluir</VBtn
+          >
         </VCardActions>
       </VCard>
     </VDialog>
@@ -280,3 +304,10 @@ onMounted(() => {
   fetchStates()
 })
 </script>
+
+<style scoped>
+:deep(thead tr th) {
+  background-color: #f5f5f5 !important;
+  font-weight: 700 !important;
+}
+</style>

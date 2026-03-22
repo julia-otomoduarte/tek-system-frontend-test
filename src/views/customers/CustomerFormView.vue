@@ -2,9 +2,6 @@
   <div>
     <div class="d-flex align-center justify-space-between mb-6">
       <div>
-        <h1 class="text-h5 font-weight-bold">
-          {{ isEdit ? 'Editar Cliente' : 'Novo Cliente' }}
-        </h1>
         <div class="text-body-2 text-medium-emphasis mt-1">
           <RouterLink :to="{ name: 'customers-list' }" class="text-decoration-none">
             Clientes
@@ -16,7 +13,7 @@
 
     <VForm ref="formRef" @submit.prevent="onSubmit">
       <VCard rounded="lg" elevation="0" border class="mb-4">
-        <VCardTitle class="pa-4 pb-0">Dados Pessoais</VCardTitle>
+        <VCardTitle class="pa-4 pb-0 mb-4">Dados Pessoais</VCardTitle>
         <VCardText>
           <VRow>
             <VCol cols="12" md="6">
@@ -25,6 +22,9 @@
                 label="Nome completo"
                 :rules="[rules.required]"
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
               />
             </VCol>
             <VCol cols="12" md="6">
@@ -34,6 +34,9 @@
                 type="email"
                 :rules="[rules.required, rules.email]"
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
               />
             </VCol>
             <VCol cols="12" md="6">
@@ -42,6 +45,9 @@
                 label="Telefone"
                 :rules="[rules.required]"
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
               />
             </VCol>
             <VCol cols="12" md="6">
@@ -50,6 +56,9 @@
                 label="CPF / CNPJ"
                 :rules="[rules.required]"
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
               />
             </VCol>
           </VRow>
@@ -57,7 +66,7 @@
       </VCard>
 
       <VCard rounded="lg" elevation="0" border class="mb-6">
-        <VCardTitle class="pa-4 pb-0">Endereço</VCardTitle>
+        <VCardTitle class="pa-4 pb-0 mb-4">Endereço</VCardTitle>
         <VCardText>
           <VRow>
             <VCol cols="12" md="3">
@@ -65,18 +74,44 @@
                 v-model="form.address.zipCode"
                 label="CEP"
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
                 :loading="loadingCep"
                 @blur="fetchAddressByCep"
               />
             </VCol>
             <VCol cols="12" md="7">
-              <VTextField v-model="form.address.street" label="Logradouro" density="compact" />
+              <VTextField
+                v-model="form.address.street"
+                label="Logradouro"
+                density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
+                :disabled="cepAutoFilled"
+              />
             </VCol>
             <VCol cols="12" md="2">
-              <VTextField v-model="form.address.number" label="Número" density="compact" />
+              <VTextField
+                v-model="form.address.number"
+                label="Número"
+                density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
+              />
             </VCol>
             <VCol cols="12" md="4">
-              <VTextField v-model="form.address.neighborhood" label="Bairro" density="compact" />
+              <VTextField
+                v-model="form.address.neighborhood"
+                label="Bairro"
+                density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
+                :disabled="cepAutoFilled"
+              />
             </VCol>
             <VCol cols="12" md="4">
               <VSelect
@@ -86,8 +121,12 @@
                 item-value="sigla"
                 label="Estado"
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
                 clearable
                 :loading="loadingStates"
+                :disabled="cepAutoFilled"
               />
             </VCol>
             <VCol cols="12" md="4">
@@ -98,8 +137,11 @@
                 item-value="nome"
                 label="Cidade"
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
                 clearable
-                :disabled="!selectedState"
+                :disabled="cepAutoFilled || !selectedState"
                 :loading="loadingCities"
               />
             </VCol>
@@ -132,6 +174,7 @@ const toast = useToastStore()
 
 const isEdit = computed(() => !!route.params.id)
 const saving = ref(false)
+const cepAutoFilled = ref(false)
 const loadingCep = ref(false)
 const loadingStates = ref(false)
 const loadingCities = ref(false)
@@ -182,6 +225,13 @@ async function fetchCities(uf: string) {
   }
 }
 
+watch(
+  () => form.value.address.zipCode,
+  (val) => {
+    if (!val) cepAutoFilled.value = false
+  },
+)
+
 watch(selectedState, (newState) => {
   form.value.address.state = newState ?? ''
   if (keepCity) {
@@ -205,6 +255,7 @@ async function fetchAddressByCep() {
     form.value.address.city = data.city
     keepCity = true
     selectedState.value = data.state
+    cepAutoFilled.value = true
   } catch (error) {
     toast.triggerToast(getApiError(error, 'CEP não encontrado.'), 'error')
   } finally {
@@ -224,6 +275,7 @@ async function fetchCustomer(id: string) {
     }
     keepCity = true
     selectedState.value = data.address.state || null
+    if (data.address.zipCode) cepAutoFilled.value = true
   } catch (error) {
     toast.triggerToast(getApiError(error, 'Erro ao carregar cliente.'), 'error')
     router.push({ name: 'customers-list' })
