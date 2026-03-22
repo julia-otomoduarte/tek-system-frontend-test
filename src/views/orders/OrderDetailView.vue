@@ -33,31 +33,27 @@
     <template v-else-if="order">
       <VRow>
         <VCol cols="12" md="6">
-          <VCard rounded="lg" elevation="0" border height="100%">
+          <VCard rounded="lg" elevation="0" style="background-color: #f0f8ff; border: 1px solid #90caf9" height="100%">
             <VCardTitle class="pa-4 pb-2">Dados do Pedido</VCardTitle>
             <VCardText class="pa-0">
-              <VList>
-                <VListItem>
+              <VList bg-color="transparent">
+                <VListItem class="py-3">
                   <template #prepend>
                     <VIcon icon="mdi-calendar-outline" color="primary" class="mr-3" />
                   </template>
-                  <VListItemTitle class="text-body-2 font-weight-medium"
-                    >Data do Pedido</VListItemTitle
-                  >
+                  <VListItemTitle class="text-body-2 font-weight-medium">Data do Pedido</VListItemTitle>
                   <VListItemSubtitle>{{ formatDate(order.createdAt) }}</VListItemSubtitle>
                 </VListItem>
-                <VDivider />
-                <VListItem>
+                <VDivider style="border-color: #90caf9" />
+                <VListItem class="py-3">
                   <template #prepend>
                     <VIcon icon="mdi-currency-usd" color="primary" class="mr-3" />
                   </template>
-                  <VListItemTitle class="text-body-2 font-weight-medium"
-                    >Valor Total</VListItemTitle
-                  >
+                  <VListItemTitle class="text-body-2 font-weight-medium">Valor Total</VListItemTitle>
                   <VListItemSubtitle>{{ formatCurrency(order.total) }}</VListItemSubtitle>
                 </VListItem>
-                <VDivider />
-                <VListItem>
+                <VDivider style="border-color: #90caf9" />
+                <VListItem class="py-3">
                   <template #prepend>
                     <VIcon icon="mdi-tag-outline" color="primary" class="mr-3" />
                   </template>
@@ -83,7 +79,7 @@
             <VCardTitle class="pa-4 pb-2">Dados do Cliente</VCardTitle>
             <VCardText class="pa-0">
               <VList>
-                <VListItem>
+                <VListItem class="py-3">
                   <template #prepend>
                     <VIcon icon="mdi-account-outline" color="primary" class="mr-3" />
                   </template>
@@ -98,7 +94,7 @@
                   </VListItemSubtitle>
                 </VListItem>
                 <VDivider />
-                <VListItem>
+                <VListItem class="py-3">
                   <template #prepend>
                     <VIcon icon="mdi-email-outline" color="primary" class="mr-3" />
                   </template>
@@ -106,7 +102,7 @@
                   <VListItemSubtitle>{{ order.customer?.email }}</VListItemSubtitle>
                 </VListItem>
                 <VDivider />
-                <VListItem>
+                <VListItem class="py-3">
                   <template #prepend>
                     <VIcon icon="mdi-phone-outline" color="primary" class="mr-3" />
                   </template>
@@ -114,7 +110,7 @@
                   <VListItemSubtitle>{{ order.customer?.phone ?? '-' }}</VListItemSubtitle>
                 </VListItem>
                 <VDivider />
-                <VListItem>
+                <VListItem class="py-3">
                   <template #prepend>
                     <VIcon icon="mdi-card-account-details-outline" color="primary" class="mr-3" />
                   </template>
@@ -122,7 +118,7 @@
                   <VListItemSubtitle>{{ order.customer?.document ?? '-' }}</VListItemSubtitle>
                 </VListItem>
                 <VDivider />
-                <VListItem>
+                <VListItem class="py-3">
                   <template #prepend>
                     <VIcon icon="mdi-map-marker-outline" color="primary" class="mr-3" />
                   </template>
@@ -307,3 +303,15 @@ async function changeStatus() {
 
 onMounted(fetchOrder)
 </script>
+
+<style scoped>
+:deep(.v-list-item-subtitle) {
+  overflow: visible !important;
+  white-space: normal !important;
+  text-overflow: unset !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  -webkit-box-orient: unset !important;
+  display: block !important;
+}
+</style>

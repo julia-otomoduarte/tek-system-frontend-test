@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div class="d-flex align-center justify-space-between mb-6">
-      <h1 class="text-h5 font-weight-bold">Pedidos</h1>
+    <div class="d-flex align-center justify-end mb-6">
       <VBtn color="primary" prepend-icon="mdi-plus" :to="{ name: 'order-create' }">
         Novo Pedido
       </VBtn>
@@ -17,6 +16,9 @@
             clearable
             hide-details
             density="compact"
+            bg-color="grey-lighten-5"
+            color="primary"
+            base-color="primary"
             @update:model-value="onFilterChange"
           />
         </VCol>
@@ -30,6 +32,9 @@
             clearable
             hide-details
             density="compact"
+            bg-color="grey-lighten-5"
+            color="primary"
+            base-color="primary"
             @update:model-value="onFilterChange"
           >
             <template #selection="{ item }">
@@ -128,6 +133,9 @@
             clearable
             hide-details
             density="compact"
+            bg-color="grey-lighten-5"
+            color="primary"
+            base-color="primary"
             :loading="loadingCustomers"
             no-data-text="Nenhum cliente encontrado"
             @update:search="onCustomerSearch"
@@ -145,6 +153,9 @@
                 type="number"
                 hide-details
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
               />
             </VCol>
             <VCol cols="6" class="pa-1">
@@ -155,6 +166,9 @@
                 type="number"
                 hide-details
                 density="compact"
+                bg-color="grey-lighten-5"
+                color="primary"
+                base-color="primary"
               />
             </VCol>
           </VRow>
@@ -168,15 +182,20 @@
     </VNavigationDrawer>
 
     <VDialog v-model="deleteDialog" max-width="400">
-      <VCard>
-        <VCardTitle>Excluir pedido</VCardTitle>
+      <VCard class="rounded-xl py-4">
+        <VCardTitle class="text-h6 font-weight-bold d-flex align-center gap-2">
+          Excluir pedido
+          <VIcon icon="mdi-alert-circle-outline" color="warning" size="22" />
+        </VCardTitle>
         <VCardText>
           Tem certeza que deseja excluir o pedido <strong>{{ selectedOrder?.orderNumber }}</strong
           >?
+          <br />
+          Esta ação não pode ser desfeita.
         </VCardText>
         <VCardActions class="justify-end">
-          <VBtn variant="text" @click="deleteDialog = false">Cancelar</VBtn>
-          <VBtn color="error" :loading="deleting" @click="deleteOrder">Excluir</VBtn>
+          <VBtn variant="outlined" @click="deleteDialog = false">Cancelar</VBtn>
+          <VBtn variant="flat" color="error" :loading="deleting" @click="deleteOrder">Excluir</VBtn>
         </VCardActions>
       </VCard>
     </VDialog>
@@ -319,3 +338,10 @@ onMounted(() => {
   fetchCustomers()
 })
 </script>
+
+<style scoped>
+:deep(thead tr th) {
+  background-color: #f5f5f5 !important;
+  font-weight: 700 !important;
+}
+</style>

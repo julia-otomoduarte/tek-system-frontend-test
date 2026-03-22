@@ -4,7 +4,9 @@
       <div>
         <h1 class="text-h5 font-weight-bold">{{ isEdit ? 'Editar Pedido' : 'Novo Pedido' }}</h1>
         <div class="text-body-2 text-medium-emphasis mt-1">
-          <RouterLink :to="{ name: 'orders-list' }" class="text-decoration-none">Pedidos</RouterLink>
+          <RouterLink :to="{ name: 'orders-list' }" class="text-decoration-none"
+            >Pedidos</RouterLink
+          >
           &rsaquo; {{ isEdit ? 'Editar' : 'Novo' }}
         </div>
       </div>
@@ -12,7 +14,7 @@
 
     <VForm ref="formRef" @submit.prevent="onSubmit">
       <VCard rounded="lg" elevation="0" border class="mb-4">
-        <VCardTitle class="pa-4 pb-0">Cliente</VCardTitle>
+        <VCardTitle class="pa-4 pb-0 mb-4">Cliente</VCardTitle>
         <VCardText>
           <VAutocomplete
             v-model="form.customerId"
@@ -23,6 +25,9 @@
             prepend-inner-icon="mdi-account-search"
             clearable
             density="compact"
+            bg-color="grey-lighten-5"
+            color="primary"
+            base-color="primary"
             :loading="loadingCustomers"
             no-data-text="Nenhum cliente encontrado"
             :rules="[rules.required]"
@@ -32,7 +37,7 @@
       </VCard>
 
       <VCard rounded="lg" elevation="0" border class="mb-6">
-        <VCardTitle class="pa-4 pb-2">Itens do Pedido</VCardTitle>
+        <VCardTitle class="pa-4 pb-2 mb-4">Itens do Pedido</VCardTitle>
         <VCardText>
           <div v-for="(item, index) in form.items" :key="index" class="mb-3">
             <VRow align="center">
@@ -44,6 +49,9 @@
                   item-value="id"
                   label="Produto"
                   density="compact"
+                  bg-color="grey-lighten-5"
+                  color="primary"
+                  base-color="primary"
                   clearable
                   hide-details
                   :loading="loadingProducts"
@@ -59,6 +67,9 @@
                   label="Quantidade"
                   type="number"
                   density="compact"
+                  bg-color="grey-lighten-5"
+                  color="primary"
+                  base-color="primary"
                   hide-details
                   :rules="[rules.minOne]"
                   min="1"
@@ -66,7 +77,10 @@
               </VCol>
               <VCol cols="4" sm="2" class="d-flex justify-end">
                 <VBtn
-                  icon variant="text" color="error" size="small"
+                  icon
+                  variant="text"
+                  color="error"
+                  size="small"
                   :disabled="form.items.length === 1"
                   @click="removeItem(index)"
                 >
@@ -81,7 +95,13 @@
             </div>
           </div>
 
-          <VBtn variant="text" color="primary" prepend-icon="mdi-plus" class="mt-2" @click="addItem">
+          <VBtn
+            variant="text"
+            color="primary"
+            prepend-icon="mdi-plus"
+            class="mt-2"
+            @click="addItem"
+          >
             Adicionar item
           </VBtn>
 
