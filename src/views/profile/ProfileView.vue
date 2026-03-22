@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1 class="text-h5 font-weight-bold mb-6">Meu Perfil</h1>
+    <div class="d-flex align-center justify-end mb-6">
+      <VBtn color="error" variant="outlined" prepend-icon="mdi-logout" @click="logout">Sair</VBtn>
+    </div>
 
     <div v-if="loading" class="d-flex justify-center pa-8">
       <VProgressCircular indeterminate color="primary" />
@@ -29,6 +31,9 @@
                     label="Nome"
                     prepend-inner-icon="mdi-account-outline"
                     density="compact"
+                    bg-color="grey-lighten-5"
+                    color="primary"
+                    base-color="primary"
                     :rules="[rules.required]"
                   />
                 </VCol>
@@ -38,6 +43,9 @@
                     label="E-mail"
                     prepend-inner-icon="mdi-email-outline"
                     density="compact"
+                    bg-color="grey-lighten-5"
+                    color="primary"
+                    base-color="primary"
                     type="email"
                     :rules="[rules.required, rules.email]"
                   />
@@ -59,6 +67,9 @@
                     label="Nova senha"
                     prepend-inner-icon="mdi-lock-outline"
                     density="compact"
+                    bg-color="grey-lighten-5"
+                    color="primary"
+                    base-color="primary"
                     :type="showPassword ? 'text' : 'password'"
                     :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                     :rules="form.password ? [rules.minPassword] : []"
@@ -70,12 +81,37 @@
           </VCard>
 
           <div class="d-flex justify-space-between">
-            <VBtn color="error" variant="outlined" prepend-icon="mdi-logout" @click="logout">Sair</VBtn>
+            <VBtn
+              color="error"
+              variant="text"
+              prepend-icon="mdi-delete-outline"
+              @click="deleteDialog = true"
+              >Excluir conta</VBtn
+            >
             <VBtn type="submit" color="primary" :loading="saving">Salvar alterações</VBtn>
           </div>
         </VForm>
       </VCol>
     </VRow>
+
+    <VDialog v-model="deleteDialog" max-width="400">
+      <VCard class="rounded-xl py-4">
+        <VCardTitle class="text-h6 font-weight-bold d-flex align-center gap-2">
+          Excluir conta
+          <VIcon icon="mdi-alert-circle-outline" color="warning" size="22" />
+        </VCardTitle>
+        <VCardText>
+          Tem certeza que deseja excluir sua conta? <br />
+          Esta ação não pode ser desfeita.
+        </VCardText>
+        <VCardActions class="justify-end">
+          <VBtn variant="outlined" @click="deleteDialog = false">Cancelar</VBtn>
+          <VBtn variant="flat" color="error" :loading="deleting" @click="deleteAccount"
+            >Excluir</VBtn
+          >
+        </VCardActions>
+      </VCard>
+    </VDialog>
   </div>
 </template>
 
@@ -95,6 +131,8 @@ const formRef = ref()
 const saving = ref(false)
 const showPassword = ref(false)
 const loading = ref(false)
+const deleteDialog = ref(false)
+const deleting = ref(false)
 
 const form = ref({
   name: authStore.user?.name ?? '',
@@ -156,6 +194,19 @@ onMounted(async () => {
     }
   }
 })
+
+async function deleteAccount() {
+  deleting.value = true
+  try {
+    await api.delete(`/users/${authStore.user?.id}`)
+    authStore.logoutUser()
+    router.push({ name: 'login' })
+  } catch (error) {
+    toast.triggerToast(getApiError(error, 'Erro ao excluir conta.'), 'error')
+  } finally {
+    deleting.value = false
+  }
+}
 
 function logout() {
   authStore.logoutUser()

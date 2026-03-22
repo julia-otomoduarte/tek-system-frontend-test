@@ -33,7 +33,12 @@
     <template v-else-if="order">
       <VRow>
         <VCol cols="12" md="6">
-          <VCard rounded="lg" elevation="0" style="background-color: #f0f8ff; border: 1px solid #90caf9" height="100%">
+          <VCard
+            rounded="lg"
+            elevation="0"
+            style="background-color: #f0f8ff; border: 1px solid #90caf9"
+            height="100%"
+          >
             <VCardTitle class="pa-4 pb-2">Dados do Pedido</VCardTitle>
             <VCardText class="pa-0">
               <VList bg-color="transparent">
@@ -41,7 +46,9 @@
                   <template #prepend>
                     <VIcon icon="mdi-calendar-outline" color="primary" class="mr-3" />
                   </template>
-                  <VListItemTitle class="text-body-2 font-weight-medium">Data do Pedido</VListItemTitle>
+                  <VListItemTitle class="text-body-2 font-weight-medium"
+                    >Data do Pedido</VListItemTitle
+                  >
                   <VListItemSubtitle>{{ formatDate(order.createdAt) }}</VListItemSubtitle>
                 </VListItem>
                 <VDivider style="border-color: #90caf9" />
@@ -49,7 +56,9 @@
                   <template #prepend>
                     <VIcon icon="mdi-currency-usd" color="primary" class="mr-3" />
                   </template>
-                  <VListItemTitle class="text-body-2 font-weight-medium">Valor Total</VListItemTitle>
+                  <VListItemTitle class="text-body-2 font-weight-medium"
+                    >Valor Total</VListItemTitle
+                  >
                   <VListItemSubtitle>{{ formatCurrency(order.total) }}</VListItemSubtitle>
                 </VListItem>
                 <VDivider style="border-color: #90caf9" />
@@ -124,9 +133,11 @@
                   </template>
                   <VListItemTitle class="text-body-2 font-weight-medium">Localidade</VListItemTitle>
                   <VListItemSubtitle>
-                    {{ order.customer?.address?.city && order.customer?.address?.state
-                      ? `${order.customer.address.city} - ${order.customer.address.state}`
-                      : '-' }}
+                    {{
+                      order.customer?.address?.city && order.customer?.address?.state
+                        ? `${order.customer.address.city} - ${order.customer.address.state}`
+                        : '-'
+                    }}
                   </VListItemSubtitle>
                 </VListItem>
               </VList>
@@ -186,12 +197,13 @@
           </VSelect>
         </VCardText>
         <VCardActions class="justify-end pa-4 pt-0">
-          <VBtn variant="text" @click="statusDialog = false">Cancelar</VBtn>
+          <VBtn variant="outlined" color="error" @click="statusDialog = false">Cancelar</VBtn>
           <VBtn
-            color="primary"
+            color="info"
             :loading="updatingStatus"
             :disabled="!newStatus"
             @click="changeStatus"
+            variant="flat"
           >
             Confirmar
           </VBtn>
