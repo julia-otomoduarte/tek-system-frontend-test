@@ -84,7 +84,7 @@ const defaultStatuses = [
   { label: 'Rascunho', key: 'DRAFT', color: 'grey', icon: 'mdi-pencil-outline' },
   { label: 'Pendente', key: 'PENDING', color: 'orange', icon: 'mdi-clock-outline' },
   { label: 'Concluído', key: 'COMPLETED', color: 'green', icon: 'mdi-check-circle-outline' },
-  { label: 'Cancelado', key: 'CANCELLED', color: 'red', icon: 'mdi-close-circle-outline' },
+  { label: 'Cancelado', key: 'CANCELED', color: 'red', icon: 'mdi-close-circle-outline' },
 ]
 
 const orderStatuses = computed(() =>
