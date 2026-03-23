@@ -59,6 +59,12 @@
         :items-per-page="10"
         @update:options="onTableOptions"
       >
+        <template #[`item.phone`]="{ item }">
+          {{ maskPhone(item.phone ?? '') }}
+        </template>
+        <template #[`item.document`]="{ item }">
+          {{ maskDocument(item.document ?? '') }}
+        </template>
         <template #[`item.actions`]="{ item }">
           <VBtn
             icon
@@ -86,7 +92,7 @@
 
         <div class="d-flex flex-column ga-4">
           <VTextField
-            v-model="filters.phone"
+            :model-value="maskPhone(filters.phone ?? '')"
             label="Telefone"
             prepend-inner-icon="mdi-phone-outline"
             clearable
@@ -95,9 +101,11 @@
             bg-color="grey-lighten-5"
             color="primary"
             base-color="primary"
+            @input="(e: Event) => { const v = unmasked((e.target as HTMLInputElement).value).slice(0, 11); filters.phone = v; (e.target as HTMLInputElement).value = maskPhone(v) }"
+            @click:clear="filters.phone = undefined"
           />
           <VTextField
-            v-model="filters.document"
+            :model-value="maskDocument(filters.document ?? '')"
             label="Documento (CPF/CNPJ)"
             prepend-inner-icon="mdi-card-account-details-outline"
             clearable
@@ -106,6 +114,8 @@
             bg-color="grey-lighten-5"
             color="primary"
             base-color="primary"
+            @input="(e: Event) => { const v = unmasked((e.target as HTMLInputElement).value).slice(0, 14); filters.document = v; (e.target as HTMLInputElement).value = maskDocument(v) }"
+            @click:clear="filters.document = undefined"
           />
           <VSelect
             v-model="selectedState"
@@ -176,6 +186,7 @@ import { customersService } from '@/services/customers.service'
 import { locationsService } from '@/services/locations.service'
 import { useToastStore } from '@/stores/toast.store'
 import type { Customer, CustomerFilters } from '@/types/customer.types'
+import { maskPhone, maskDocument, unmasked } from '@/utils/input-masks'
 
 const toast = useToastStore()
 

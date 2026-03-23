@@ -41,24 +41,26 @@
             </VCol>
             <VCol cols="12" md="6">
               <VTextField
-                v-model="form.phone"
+                :model-value="maskPhone(form.phone)"
                 label="Telefone"
                 :rules="[rules.required]"
                 density="compact"
                 bg-color="grey-lighten-5"
                 color="primary"
                 base-color="primary"
+                @input="(e: Event) => { const v = unmasked((e.target as HTMLInputElement).value).slice(0, 11); form.phone = v; (e.target as HTMLInputElement).value = maskPhone(v) }"
               />
             </VCol>
             <VCol cols="12" md="6">
               <VTextField
-                v-model="form.document"
+                :model-value="maskDocument(form.document)"
                 label="CPF / CNPJ"
                 :rules="[rules.required]"
                 density="compact"
                 bg-color="grey-lighten-5"
                 color="primary"
                 base-color="primary"
+                @input="(e: Event) => { const v = unmasked((e.target as HTMLInputElement).value).slice(0, 14); form.document = v; (e.target as HTMLInputElement).value = maskDocument(v) }"
               />
             </VCol>
           </VRow>
@@ -165,6 +167,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { customersService } from '@/services/customers.service'
 import { locationsService } from '@/services/locations.service'
 import { useToastStore } from '@/stores/toast.store'
+import { maskPhone, maskDocument, unmasked } from '@/utils/input-masks'
 import { getApiError } from '@/utils/api-error'
 import type { CustomerPayload } from '@/types/customer.types'
 
