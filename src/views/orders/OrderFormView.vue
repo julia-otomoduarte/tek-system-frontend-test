@@ -44,7 +44,7 @@
               <VCol cols="12" sm="7">
                 <VAutocomplete
                   v-model="item.productId"
-                  :items="productOptions"
+                  :items="availableProducts(index)"
                   item-title="name"
                   item-value="id"
                   label="Produto"
@@ -154,6 +154,14 @@ const loadingCustomers = ref(false)
 
 const productOptions = ref<Product[]>([])
 const loadingProducts = ref(false)
+
+function availableProducts(index: number) {
+  const selectedIds = form.value.items
+    .filter((_, i) => i !== index)
+    .map((item) => item.productId)
+    .filter(Boolean)
+  return productOptions.value.filter((p) => !selectedIds.includes(p.id))
+}
 
 const rules = {
   required: (v: string) => !!v || 'Campo obrigatório',
