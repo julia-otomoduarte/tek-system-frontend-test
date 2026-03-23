@@ -73,6 +73,7 @@
                   hide-details
                   :rules="[rules.minOne]"
                   min="1"
+                  @keydown="(['-', '+', 'e', 'E']).includes($event.key) && $event.preventDefault()"
                 />
               </VCol>
               <VCol cols="4" sm="2" class="d-flex justify-end">
